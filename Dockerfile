@@ -6,22 +6,21 @@ COPY . .
 
 RUN npm install
 
-
 FROM node:20.14.0-alpine
 
 WORKDIR /app
 
-COPY --from=build /app/node_modules /app/node_modules
+USER node
 
-COPY --from=build /app/public /app/public
+COPY --chown=node:node --from=build /app/node_modules /app/node_modules
 
-COPY --from=build /app/src /app/src
+COPY --chown=node:node --from=build /app/public /app/public
 
-COPY --from=build /app/package.json /app
+COPY --chown=node:node --from=build /app/src /app/src
+
+COPY --chown=node:node --from=build /app/package.json /app
 
 CMD [ "npm", "start" ]
-
-
 
 
 
