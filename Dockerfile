@@ -20,6 +20,8 @@ COPY --chown=node:node --from=build /app/src /app/src
 
 COPY --chown=node:node --from=build /app/package.json /app
 
+COPY --chown=node:node --from=build /app/logs /app/logs
+
 CMD [ "npm", "start" ]
 
 
