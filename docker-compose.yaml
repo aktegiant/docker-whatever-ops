@@ -5,12 +5,36 @@ services:
   mongodb:
     container_name: mongodb_service
     image: "mongo:latest"
+    ports:
+      - "27017:27017"
+    networks:
+      - hello-docker
 
   redis:
     container_name: redis_service
     image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - hello-docker
 
   app:
     container_name: hello-docker-wops
     build:
       context: .
+    ports:
+      - "3000:3000"
+    networks:
+      - hello-docker
+
+    environment:
+      - MONGO_HOST=mongodb_service
+      - MONGO_PORT=27017
+      - REDIS_HOST=redis_service
+      - REDIS_PORT=6379
+      - PORT=3000
+
+networks:
+  hello-docker:
+    name: hello-docker
+    driver: bridge
