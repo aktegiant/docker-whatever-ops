@@ -11,6 +11,6 @@ services:
     image: "redis:latest"
 
   app:
-    container_name: "hello-docker-wops"
+    container_name: hello-docker-wops
     build:
       context: .
