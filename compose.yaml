@@ -5,36 +5,39 @@ services:
   mongodb:
     container_name: mongodb_service
     image: "mongo:latest"
-    ports:
-      - "27017:27017"
     networks:
-      - hello-docker
+      - default_network
 
   redis:
     container_name: redis_service
     image: "redis:latest"
-    ports:
-      - "6379:6379"
     networks:
-      - hello-docker
+      - default_network
 
   app:
     container_name: hello-docker-wops
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    networks:
-      - hello-docker
-
+    links:
+      - "mongodb:mongodb_database"
+      - "redis:redis_database"
     environment:
-      - MONGO_HOST=mongodb_service
+      - MONGO_HOST=mongodb_database
       - MONGO_PORT=27017
-      - REDIS_HOST=redis_service
+      - REDIS_HOST=redis_database
       - REDIS_PORT=6379
       - PORT=3000
+    depends_on:
+      - mongodb
+      - redis
+    volumes:
+      - ./tmp:/app/logs
+    networks:
+      - default_network
 
 networks:
-  hello-docker:
-    name: hello-docker
+  default_network:
     driver: bridge
