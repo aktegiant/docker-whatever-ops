@@ -63,6 +63,6 @@ app.get("/", (req, res) => {
   await Promise.all([checkMongoConnection(), checkRedisConnection()]);
 
   app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+    console.log(`Server is listen on port ${port}`);
   });
 })();

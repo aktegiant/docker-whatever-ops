@@ -28,5 +28,7 @@ COPY --chown=node:node --from=build /app/package.json /app
 
 COPY --chown=node:node --from=build /app/logs /app/logs
 
-CMD ["npm", "start"]
+ENTRYPOINT ["npm"]
+
+CMD ["start"]
 
